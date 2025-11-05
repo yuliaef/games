@@ -11,6 +11,7 @@ import {Definition} from "@/app/entities/crossword/definition";
 import {CrosswordData} from "@/app/entities/crossword/crossword";
 import {crosswordReducer} from "@/app/reducers/crossword";
 import {createEmptyState} from "@/app/entities/crossword/state";
+import {useModal} from "@/app/hooks/use-modal";
 
 type Props = {
     data: CrosswordData;

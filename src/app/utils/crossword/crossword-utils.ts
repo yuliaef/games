@@ -77,9 +77,7 @@ export function createDefinitions(words: Word[]): Definition[] {
 export function computeFirstCells(wordsCoords: Point[][]): Point[] {
     return wordsCoords.map((coords) => coords[0]);
 }
-/**
- * Возвращает текущее введённое значение активного слова.
- */
+
 export function getActiveWordValue(state: CrosswordState): string {
     const coords = state.wordsCoords[state.activePosition] ?? [];
     let value = "";
@@ -93,9 +91,6 @@ export function getActiveWordValue(state: CrosswordState): string {
     return value;
 }
 
-/**
- * Подсвечивает клетки слова как правильные / неправильные.
- */
 export function highlightWord(
     state: CrosswordState,
     wordIndex: number,
@@ -113,9 +108,6 @@ export function highlightWord(
     }
 }
 
-/**
- * Устанавливает активность клеток для выбранного слова.
- */
 export function setActiveForWord(state: CrosswordState, wordIndex: number) {
     for (let i = 0; i < state.cellsProperties.length; i++) {
         for (let j = 0; j < state.cellsProperties[i].length; j++) {
@@ -125,10 +117,6 @@ export function setActiveForWord(state: CrosswordState, wordIndex: number) {
     }
 }
 
-/**
- * Проверяет текущее введённое слово и обновляет состояние
- * (подсветку и выполненность подсказок).
- */
 export function validateActiveWord(state: CrosswordState, currentValue: string) {
     const activeWord = state.wordsProperties[state.activePosition];
     if (!activeWord) return;
