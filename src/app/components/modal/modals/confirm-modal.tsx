@@ -2,6 +2,7 @@
 
 import { ModalHeader, ModalBody, ModalFooter } from "@heroui/modal";
 import { Button } from "@heroui/button";
+import { ModalContentProps } from "../modal-registry";
 
 export interface ConfirmModalData {
     title: string;
@@ -13,7 +14,7 @@ export interface ConfirmModalData {
     cancelText?: string;
 }
 
-export function ConfirmModalContent({ data, onClose }: { data: ConfirmModalData; onClose: () => void }) {
+export function ConfirmModalContent({ data, onClose }: ModalContentProps<ConfirmModalData>) {
     const handleConfirm = () => {
         data.onConfirm?.();
         onClose();

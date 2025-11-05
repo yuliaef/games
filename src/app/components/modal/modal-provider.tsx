@@ -46,10 +46,10 @@ export function ModalProvider() {
 
                 return (
                     <ModalComponent key={modal.id} modal={modal}>
-                        {ContentComponent({
-                            data: modal.data,
-                            onClose: () => closeModal(modal.id),
-                        })}
+                        <ContentComponent
+                            data={modal.data}
+                            onClose={() => closeModal(modal.id)}
+                        />
                     </ModalComponent>
                 );
             })}

@@ -19,14 +19,13 @@ type Props = {
 
 export default function Crossword({ data }: Props) {
     const [state, dispatch] = useReducer(crosswordReducer, undefined, createEmptyState);
-    const [openedDefinition, setOpenedDefinition] = useState<Definition | null>(null);
-    const [isHintOpen, setIsHintOpen] = useState(false);
     const [showPieceModal, setShowPieceModal] = useState(false);
     const [showFinalModal, setShowFinalModal] = useState(false);
 
     const inputRefs = useRef<Array<HTMLInputElement | null>>([]);
     const shouldFocusFirstRef = useRef(false);
     const shouldAutoAdvanceRef = useRef(false);
+    const { openModal } = useModal();
 
     const orientation = useMemo(() => {
         return state.wordsProperties[state.activePosition]?.orientation ?? "across";
@@ -256,8 +255,7 @@ export default function Crossword({ data }: Props) {
                             key={wordIdx}
                             definition={state.definitionProperties[wordIdx]}
                             onClick={(def) => {
-                                setOpenedDefinition(def);
-                                setIsHintOpen(false);
+                                openModal("definition", { definition: def });
                             }}
                         />
                     ))}
