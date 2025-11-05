@@ -12,15 +12,18 @@ import {CrosswordData} from "@/app/entities/crossword/crossword";
 import {crosswordReducer} from "@/app/reducers/crossword";
 import {createEmptyState} from "@/app/entities/crossword/state";
 import {useModal} from "@/app/hooks/use-modal";
+import {completeCrosswordSublevel, getSublevelInfo} from "@/app/actions/crossword-actions";
 
 type Props = {
     data: CrosswordData;
+    sublevelId: number;
 };
 
-export default function Crossword({ data }: Props) {
+export default function Crossword({ data, sublevelId }: Props) {
     const [state, dispatch] = useReducer(crosswordReducer, undefined, createEmptyState);
     const [showPieceModal, setShowPieceModal] = useState(false);
     const [showFinalModal, setShowFinalModal] = useState(false);
+    const [hasCompleted, setHasCompleted] = useState(false);
 
     const inputRefs = useRef<Array<HTMLInputElement | null>>([]);
     const shouldFocusFirstRef = useRef(false);
@@ -181,37 +184,46 @@ export default function Crossword({ data }: Props) {
     useEffect(advanceToNextWordAfterPreviousCompleted, [state.definitionProperties, state.activePosition]);
     useEffect(focusOnFirstCellAfterWordAdvance, [state.activePosition, state.firstCellsOfWords, state.colsCount]);
 
-    // completion detection: when all definitions done
-    // useEffect(() => {
-    //     const defs = state.definitionProperties;
-    //     const completed = defs.length > 0 && defs.every((d) => d.isDone);
-    //     if (!completed) return;
-    //
-    //     // notify external completion callback if provided
-    //     if (onComplete) onComplete();
-    //
-    //     // Open modals regardless of storage
-    //     if (isFinalLevel) {
-    //         setShowFinalModal(true);
-    //     } else {
-    //         setShowPieceModal(true);
-    //     }
-    //
-    //     // Persist piece if available and we have a levelKey
-    //     if (!isFinalLevel && pieceForThisCrossword && typeof window !== 'undefined' && levelKey) {
-    //         const storageKey = `cw_pieces_${levelKey}`;
-    //         try {
-    //             const raw = window.localStorage.getItem(storageKey);
-    //             const pieces: string[] = raw ? JSON.parse(raw) : [];
-    //             if (!pieces.includes(pieceForThisCrossword)) {
-    //                 const next = [...pieces, pieceForThisCrossword];
-    //                 window.localStorage.setItem(storageKey, JSON.stringify(next));
-    //             }
-    //         } catch {
-    //             // ignore storage errors
-    //         }
-    //     }
-    // }, [state.definitionProperties, onComplete, isFinalLevel, pieceForThisCrossword, levelKey]);
+    // Определение завершения кроссворда: когда все определения выполнены
+    useEffect(() => {
+        const defs = state.definitionProperties;
+        const completed = defs.length > 0 && defs.every((d) => d.isDone);
+
+        if (!completed || hasCompleted) return;
+
+        // Помечаем как завершенный, чтобы не вызывать повторно
+        setHasCompleted(true);
+
+        // Обрабатываем завершение асинхронно
+        const handleCompletion = async () => {
+            try {
+                // Получаем информацию о подуровне (включая phrasePart)
+                const sublevelInfo = await getSublevelInfo(sublevelId);
+
+                if (!sublevelInfo) {
+                    console.error("Sublevel not found");
+                    return;
+                }
+
+                // Отмечаем подуровень как завершенный и разблокируем следующий
+                const result = await completeCrosswordSublevel(sublevelId);
+
+                // Открываем модальное окно с фрагментом фразы
+                openModal("completion-phrase", {
+                    phrase: sublevelInfo.phrasePart || "",
+                });
+
+                // TODO: Если нет следующего подуровня, показать модальное окно завершения уровня
+                // if (!result.hasNextSublevel) {
+                //     openModal("level-completion", { ... });
+                // }
+            } catch (error) {
+                console.error("Error completing crossword:", error);
+            }
+        };
+
+        handleCompletion();
+    }, [state.definitionProperties, hasCompleted, sublevelId, openModal]);
 
     return (
         <div className={styles.crossword}>

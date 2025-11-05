@@ -8,7 +8,7 @@ export type IGetCrosswordBySublevelUseCase = ReturnType<typeof getCrosswordBySub
 export const getCrosswordBySublevelUseCase = (
     crosswordLevelsRepository: ICrosswordsRepository,
 ) =>
-    async (sublevelId: string): Promise<CrosswordWithTypedContent> => {
+    async (sublevelId: number): Promise<CrosswordWithTypedContent> => {
         const crossword = await crosswordLevelsRepository.getCrosswordBySublevelId(sublevelId);
 
         if (!crossword) {

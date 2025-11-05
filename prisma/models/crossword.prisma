@@ -1,44 +1,44 @@
 model CrosswordLevel {
-  id        String  @id @default(uuid())
+  id        Int     @id @default(autoincrement())
   name      String  @unique
   completed Boolean
   phrase    String  @default("")
 
   sublevels CrosswordSublevel[]
 
-  createdAt  DateTime @default(now()) @map("created_at")
-  updateddAt DateTime @updatedAt @map("updated_at")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
   @@map("crossword_levels")
 }
 
 model CrosswordSublevel {
-  id         String  @id @default(uuid())
+  id         Int     @id @default(autoincrement())
   name       String  @unique
   completed  Boolean
   locked     Boolean
   phrasePart String  @default("")
 
-  levelId String
+  levelId Int
   level   CrosswordLevel @relation(fields: [levelId], references: [id])
 
   crossword Crossword? @relation("SublevelCrossword")
 
-  createdAt  DateTime @default(now()) @map("created_at")
-  updateddAt DateTime @updatedAt @map("updated_at")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
   @@map("crossword_sublevels")
 }
 
 model Crossword {
-  id      String @id @default(uuid())
-  content Json   @db.JsonB
+  id      Int  @id @default(autoincrement())
+  content Json @db.JsonB
 
-  sublevelId String            @unique
+  sublevelId Int               @unique
   sublevel   CrosswordSublevel @relation("SublevelCrossword", fields: [sublevelId], references: [id])
 
-  createdAt  DateTime @default(now()) @map("created_at")
-  updateddAt DateTime @updatedAt @map("updated_at")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
   @@map("crosswords")
 }

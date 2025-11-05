@@ -6,7 +6,7 @@ export type IListCrosswordSublevelsUseCase = ReturnType<typeof listCrosswordSubl
 export const listCrosswordSublevelsUseCase = (
     crosswordLevelsRepository: ICrosswordsRepository,
 ) =>
-    async (levelId: string): Promise<CrosswordSublevel[]> => {
+    async (levelId: number): Promise<CrosswordSublevel[]> => {
         return await crosswordLevelsRepository.listSublevels(levelId);
     };
 

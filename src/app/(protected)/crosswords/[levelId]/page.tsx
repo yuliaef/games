@@ -3,11 +3,12 @@ import SubLevelsGrid from "@/app/components/crossword/sublevels-grid";
 export const dynamic = "force-dynamic";
 
 type Props = {
-    params: Promise<{ levelId: string }>
+    params: Promise<{ levelId: number }>
 };
 
 export default async function CrosswordLevelPage({ params }: Props) {
-    const { levelId } = await params;
+    const { levelId: levelIdParam } = await params;
+    const levelId = Number(levelIdParam);
 
     return (
         <div className="min-h-screen p-6 max-w-5xl mx-auto">

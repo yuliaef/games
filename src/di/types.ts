@@ -6,6 +6,8 @@ import { IListCrosswordLevelsUseCase } from "@/core/application/use-cases/list-c
 import { IListCrosswordSublevelsUseCase } from "@/core/application/use-cases/list-crossword-sublevels.use-case";
 import { ICrosswordController } from "@/core/controllers/crossword.controller";
 import {IGetCrosswordBySublevelUseCase} from "@/core/application/use-cases/get-crossword-by-sublevel-use.case";
+import {IGetCrosswordSublevelUseCase} from "@/core/application/use-cases/get-crossword-sublevel.use-case";
+import {ICompleteCrosswordSublevelUseCase} from "@/core/application/use-cases/complete-crossword-sublevel.use-case";
 
 export const DI_SYMBOLS = {
     // Services
@@ -19,6 +21,8 @@ export const DI_SYMBOLS = {
     IListCrosswordLevelsUseCase: Symbol.for('IListCrosswordLevelsUseCase'),
     IListCrosswordSublevelsUseCase: Symbol.for('IListCrosswordSublevelsUseCase'),
     IGetCrosswordBySublevelUseCase: Symbol.for('IGetCrosswordBySublevelUseCase'),
+    IGetCrosswordSublevelUseCase: Symbol.for('IGetCrosswordSublevelUseCase'),
+    ICompleteCrosswordSublevelUseCase: Symbol.for('ICompleteCrosswordSublevelUseCase'),
 
     // Controllers
     ISignInController: Symbol.for('ISignInController'),
@@ -37,6 +41,8 @@ export interface DI_RETURN_TYPES {
     IListCrosswordLevelsUseCase: IListCrosswordLevelsUseCase;
     IListCrosswordSublevelsUseCase: IListCrosswordSublevelsUseCase;
     IGetCrossworBySublevelUseCase: IGetCrosswordBySublevelUseCase;
+    IGetCrosswordSublevelUseCase: IGetCrosswordSublevelUseCase;
+    ICompleteCrosswordSublevelUseCase: ICompleteCrosswordSublevelUseCase;
 
     // Controllers
     ISignInController: ISignInController;

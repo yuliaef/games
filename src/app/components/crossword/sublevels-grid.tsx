@@ -3,7 +3,7 @@ import { ICrosswordController } from "@/core/controllers/crossword.controller";
 import Link from "next/link";
 import {Routes} from "@/app/routes";
 
-export default async function SubLevelsGrid({ levelId }: { levelId: string }) {
+export default async function SubLevelsGrid({ levelId }: { levelId: number }) {
     const crosswordController = getInjection('ICrosswordController') as ICrosswordController;
     const sublevels = await crosswordController.listSublevels(levelId);
 

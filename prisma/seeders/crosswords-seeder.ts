@@ -61,12 +61,10 @@ const crosswordData3: CrosswordData = {
 };
 
 const LINK_IDS = [
-    "6f03915d-5a90-4312-a8fd-b98b35bdb281",
-    "3567297a-a6b4-4a11-bf4d-cad840b4a926",
-    "a1e02ffe-13a6-44ff-8064-872d4da0bead",
+    1,2,3
 ];
 
-async function resolveSublevelId(idOrLevelId: string, prisma: PrismaClient): Promise<string> {
+async function resolveSublevelId(idOrLevelId: number, prisma: PrismaClient): Promise<number> {
     const subById = await prisma.crosswordSublevel.findUnique({
         where: { id: idOrLevelId },
         select: { id: true },
