@@ -1,0 +1,23 @@
+.crossword__definition {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 10px 12px;
+  margin: 8px 0;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  cursor: pointer;
+  background: #ffffff;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+}
+
+.crossword__definition:last-child {
+  border-bottom: none;
+}
+
+.crossword__definition.definition-done {
+  color: #28a745;
+  text-decoration: line-through;
+  opacity: 0.7;
+}

@@ -1,0 +1,29 @@
+.crossword__title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.crossword__main {
+  margin-bottom: 1rem;
+  flex: 1 1 50%;
+}
+
+.crossword__field {
+  display: flex;
+  gap: 16px;
+}
+
+/* Grid visuals */
+.crossword__row {
+  display: flex;
+}
+
+.crossword__definitions {
+  margin-top: 2rem;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 0.5rem;
+  border: 1px solid #e9ecef;
+  flex: 1 1 50%;
+}
