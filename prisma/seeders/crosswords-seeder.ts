@@ -15,17 +15,17 @@ type CrosswordData = {
 
 const crosswordData1: CrosswordData = {
     words: [
-        { clue: "Первое слово", answer: "сникерс", position: 1, orientation: "across", rowStart: 1, colStart: 13, description: "любимая сладость" },
-        { clue: "Второе слово", answer: "сабвей", position: 2, orientation: "across", rowStart: 3, colStart: 9, description: "самый лучший фастфуд на завтрак" },
-        { clue: "Тертье слово", answer: "юникло", position: 3, orientation: "across", rowStart: 7, colStart: 2, description: "любимый бренд одежды" },
-        { clue: "Четретое слово", answer: "изюм", position: 4, orientation: "down", rowStart: 4, colStart: 2, description: "то, чем можно испортить хлеб" },
-        { clue: "Пятое слово", answer: "кебаб", position: 5, orientation: "down", rowStart: 7, colStart: 5, description: "ради чего стоит снова и снова возвращатиься в Турцию?)" },
-        { clue: "Шестое слово", answer: "вода", position: 6, orientation: "down", rowStart: 14, colStart: 1, description: "какой продукт заставил тебя чувствовать стыд в Милане" },
-        { clue: "Седьмое слово", answer: "вена", position: 7, orientation: "down", rowStart: 5, colStart: 7, description: "самый запомнившийся город" },
-        { clue: "Восьмое слово", answer: "бассейн", position: 8, orientation: "down", rowStart: 6, colStart: 11, description: "самое кайфовое место в Тбилиси" },
-        { clue: "Девятое слово", answer: "валенсия", position: 9, orientation: "across", rowStart: 10, colStart: 11, description: "где было сделано это фото?)" },
-        { clue: "Десятое слово", answer: "кокос", position: 10, orientation: "down", rowStart: 9, colStart: 18, description: "мороженое с каким продуктом в Саранске делают лучше чем в Испании?" },
-        { clue: "Одиннадцатое слово", answer: "медвежонок", position: 10, orientation: "across", rowStart: 9, colStart: 18, description: "как бы ты никогда не подумал, что тебя будут называть?" },
+        { clue: "Первое слово", answer: "сникерс", position: 1, orientation: "across", rowStart: 9, colStart: 4, description: "любимая сладость" },
+        { clue: "Второе слово", answer: "сабвей", position: 2, orientation: "across", rowStart: 7, colStart:2, description: "самый лучший фастфуд на завтрак" },
+        { clue: "Тертье слово", answer: "юникло", position: 3, orientation: "across", rowStart: 3, colStart: 1, description: "любимый бренд одежды" },
+        { clue: "Четретое слово", answer: "изюм", position: 4, orientation: "down", rowStart: 1, colStart: 1, description: "то, чем можно испортить хлеб" },
+        { clue: "Пятое слово", answer: "кебаб", position: 5, orientation: "down", rowStart: 3, colStart: 4, description: "ради чего стоит снова и снова возвращатиься в Турцию?)" },
+        { clue: "Шестое слово", answer: "вода", position: 6, orientation: "down", rowStart: 2, colStart: 6, description: "какой продукт заставил тебя чувствовать стыд в Милане" },
+        { clue: "Седьмое слово", answer: "вена", position: 7, orientation: "down", rowStart: 7, colStart: 5, description: "самый запомнившийся город" },
+        { clue: "Восьмое слово", answer: "бассейн", position: 8, orientation: "down", rowStart: 7, colStart: 10, description: "самое кайфовое место в Тбилиси" },
+        { clue: "Девятое слово", answer: "валенсия", position: 9, orientation: "across", rowStart: 11, colStart: 7, description: "где было сделано это фото?)" },
+        { clue: "Десятое слово", answer: "кокос", position: 10, orientation: "down", rowStart: 7, colStart: 12, description: "мороженое с каким продуктом в Саранске делают лучше чем в Испании?" },
+        { clue: "Одиннадцатое слово", answer: "медвежонок", position: 10, orientation: "across", rowStart: 13, colStart: 3, description: "как бы ты никогда не подумал, что тебя будут называть?" },
     ],
 };
 

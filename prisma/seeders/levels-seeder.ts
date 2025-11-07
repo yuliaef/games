@@ -11,13 +11,13 @@ export async function seedLevels(prisma: PrismaClient) {
                     {
                         name: "Разминка!",
                         completed: false,
-                        locked: true,
+                        locked: false,
                         phrasePart: "ganó",
                     },
                     {
                         name: "Aprendiendo español",
                         completed: false,
-                        locked: false,
+                        locked: true,
                         phrasePart: "suéter rojo",
                     },
                     {
