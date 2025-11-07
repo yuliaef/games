@@ -15,32 +15,32 @@ type CrosswordData = {
 
 const crosswordData1: CrosswordData = {
     words: [
-        { clue: "Первое слово", answer: "secuestrada", position: 1, orientation: "down", rowStart: 1, colStart: 13, description: "mi mujer está 'похищена'" },
-        { clue: "Второе слово", answer: "manana", position: 2, orientation: "down", rowStart: 3, colStart: 9, description: "actualmente estoy aprendiendo 'испанский'" },
-        { clue: "Тертье слово", answer: "cumpleanos", position: 3, orientation: "across", rowStart: 7, colStart: 2, description: "День Рождения" },
-        { clue: "Четретое слово", answer: "cinco", position: 4, orientation: "down", rowStart: 4, colStart: 2, description: "uno, dos, tres, cuatro, ___" },
-        { clue: "Пятое слово", answer: "porfavor", position: 5, orientation: "down", rowStart: 7, colStart: 5, description: "un café y una coca-cola, ___" },
-        { clue: "Шестое слово", answer: "mujer", position: 6, orientation: "across", rowStart: 14, colStart: 1, description: "el día internacional de la ___" },
-        { clue: "Седьмое слово", answer: "querida", position: 7, orientation: "down", rowStart: 5, colStart: 7, description: "mi ___" },
-        { clue: "Восьмое слово", answer: "osito", position: 8, orientation: "down", rowStart: 6, colStart: 11, description: "'медвежонок'" },
-        { clue: "Девятое слово", answer: "olvidado", position: 9, orientation: "across", rowStart: 10, colStart: 11, description: "se me ha 'забыл' todo el español" },
-        { clue: "Десятое слово", answer: "comido", position: 10, orientation: "down", rowStart: 9, colStart: 18, description: "no he 'поел' tres dias" },
+        { clue: "Первое слово", answer: "сникерс", position: 1, orientation: "across", rowStart: 1, colStart: 13, description: "любимая сладость" },
+        { clue: "Второе слово", answer: "сабвей", position: 2, orientation: "across", rowStart: 3, colStart: 9, description: "самый лучший фастфуд на завтрак" },
+        { clue: "Тертье слово", answer: "юникло", position: 3, orientation: "across", rowStart: 7, colStart: 2, description: "любимый бренд одежды" },
+        { clue: "Четретое слово", answer: "изюм", position: 4, orientation: "down", rowStart: 4, colStart: 2, description: "то, чем можно испортить хлеб" },
+        { clue: "Пятое слово", answer: "кебаб", position: 5, orientation: "down", rowStart: 7, colStart: 5, description: "ради чего стоит снова и снова возвращатиься в Турцию?)" },
+        { clue: "Шестое слово", answer: "вода", position: 6, orientation: "down", rowStart: 14, colStart: 1, description: "какой продукт заставил тебя чувствовать стыд в Милане" },
+        { clue: "Седьмое слово", answer: "вена", position: 7, orientation: "down", rowStart: 5, colStart: 7, description: "самый запомнившийся город" },
+        { clue: "Восьмое слово", answer: "бассейн", position: 8, orientation: "down", rowStart: 6, colStart: 11, description: "самое кайфовое место в Тбилиси" },
+        { clue: "Девятое слово", answer: "валенсия", position: 9, orientation: "across", rowStart: 10, colStart: 11, description: "где было сделано это фото?)" },
+        { clue: "Десятое слово", answer: "кокос", position: 10, orientation: "down", rowStart: 9, colStart: 18, description: "мороженое с каким продуктом в Саранске делают лучше чем в Испании?" },
+        { clue: "Одиннадцатое слово", answer: "медвежонок", position: 10, orientation: "across", rowStart: 9, colStart: 18, description: "как бы ты никогда не подумал, что тебя будут называть?" },
     ],
 };
 
 const crosswordData2: CrosswordData = {
     words: [
-        { clue: "Первое слово", answer: "диплом", position: 1, orientation: "across", rowStart: 2, colStart: 14, description: "это то что я делала, когда сделала это фото", hint: "на нем сайт с расписанием сдачи" },
-        { clue: "Второе слово", answer: "нерешаемая", position: 2, orientation: "across", rowStart: 11, colStart: 5, description: "эта головоломка была ..." },
-        { clue: "Тертье слово", answer: "лыжник", position: 3, orientation: "across", rowStart: 16, colStart: 6, description: "на фото очень отважный ..." },
-        { clue: "Четретое слово", answer: "футбол", position: 4, orientation: "down", rowStart: 4, colStart: 2, description: "это было когда я ходила как волонтер на ..." },
-        { clue: "Пятое слово", answer: "эвакуатор", position: 5, orientation: "down", rowStart: 3, colStart: 7, description: "в тот день мы вызвали ___" },
-        { clue: "Шестое слово", answer: "ребенок", position: 6, orientation: "down", rowStart: 10, colStart: 11, description: "эту веточку подарил мне ___" },
-        { clue: "Седьмое слово", answer: "пиньята", position: 7, orientation: "across", rowStart: 14, colStart: 9, description: " на дне рождения была ___ в виде египетской пирамиды" },
-        { clue: "Восьмое слово", answer: "док-станция", position: 8, orientation: "across", rowStart: 8, colStart: 1, description: "это была ... от моего ноутбука" },
-        { clue: "Девятое слово", answer: "замороженное", position: 9, orientation: "across", rowStart: 5, colStart: 6, description: "масло было ___" },
-        { clue: "Десятое слово", answer: "мечта", position: 10, orientation: "down", rowStart: 2, colStart: 19, description: "это была моя ___" },
-        { clue: "Одиннадцатое слово", answer: "диван", position: 11, orientation: "down", rowStart: 1, colStart: 15, description: "так я ударилась об ___" },
+        { clue: "Первое слово", answer: "secuestrada", position: 1, orientation: "down", rowStart: 1, colStart: 13, description: "mi mujer está 'похищена'" },
+        { clue: "Второе слово", answer: "manana", position: 2, orientation: "down", rowStart: 3, colStart: 9, description: "actualmente estoy aprendiendo 'испанский'" },
+        { clue: "Тертье слово", answer: "cumpleanos", position: 3, orientation: "across", rowStart: 7, colStart: 2, description: "День Рождения" },
+        { clue: "Четретое слово", answer: "cinco", position: 4, orientation: "down", rowStart: 4, colStart: 2, description: "uno, dos, tres, cuatro, ___" },
+        { clue: "Пятое слово", answer: "por favor", position: 5, orientation: "down", rowStart: 7, colStart: 5, description: "un café y una coca-cola, ___" },
+        { clue: "Шестое слово", answer: "mujer", position: 6, orientation: "across", rowStart: 15, colStart: 1, description: "el día internacional de la ___" },
+        { clue: "Седьмое слово", answer: "querida", position: 7, orientation: "down", rowStart: 5, colStart: 7, description: "mi ___" },
+        { clue: "Восьмое слово", answer: "osito", position: 8, orientation: "down", rowStart: 6, colStart: 11, description: "'медвежонок'" },
+        { clue: "Девятое слово", answer: "olvidado", position: 9, orientation: "across", rowStart: 10, colStart: 11, description: "se me ha 'забыл' todo el español" },
+        { clue: "Десятое слово", answer: "comido", position: 10, orientation: "down", rowStart: 9, colStart: 18, description: "no he 'поел' tres dias" },
     ],
 };
 

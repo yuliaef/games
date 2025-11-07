@@ -9,6 +9,12 @@ export async function seedLevels(prisma: PrismaClient) {
             sublevels: {
                 create: [
                     {
+                        name: "Разминка!",
+                        completed: false,
+                        locked: true,
+                        phrasePart: "ganó",
+                    },
+                    {
                         name: "Aprendiendo español",
                         completed: false,
                         locked: false,
@@ -20,12 +26,7 @@ export async function seedLevels(prisma: PrismaClient) {
                         locked: true,
                         phrasePart: "Леха con",
                     },
-                    {
-                        name: "Favoritos именинника",
-                        completed: false,
-                        locked: true,
-                        phrasePart: "ganó",
-                    },
+
                 ],
             },
         },
