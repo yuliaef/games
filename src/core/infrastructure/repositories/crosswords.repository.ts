@@ -75,7 +75,7 @@ export class CrosswordsRepository implements ICrosswordsRepository {
             // Находим все подуровни в том же уровне
             const allSublevels = await prisma.crosswordSublevel.findMany({
                 where: { levelId: currentSublevel.levelId },
-                orderBy: { createdAt: "asc" },
+                orderBy: { id: "asc" },
             });
 
             // Находим индекс текущего подуровня
