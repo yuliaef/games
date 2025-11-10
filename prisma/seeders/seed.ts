@@ -7,7 +7,7 @@ const prisma = new PrismaClient();
 
 async function main() {
     await seedDefaultUser(prisma);
-    await seedLevels(prisma);
+    //await seedLevels(prisma);
     await seedCrosswords(prisma);
 }
 

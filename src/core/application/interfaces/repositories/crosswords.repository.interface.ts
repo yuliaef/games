@@ -7,6 +7,7 @@ export interface ICrosswordsRepository {
     listLevels(): Promise<CrosswordLevel[]>;
     listSublevels(levelId: number): Promise<CrosswordSublevel[]>;
     getSublevelById(sublevelId: number): Promise<CrosswordSublevel | null>;
+    getLevelById(levelId: number): Promise<CrosswordLevel | null>;
     getCrosswordBySublevelId(sublevelId: number): Promise<CrosswordWithTypedContent | null>;
     completeSublevel(sublevelId: number): Promise<void>;
     unlockNextSublevel(sublevelId: number): Promise<CrosswordSublevel | null>;

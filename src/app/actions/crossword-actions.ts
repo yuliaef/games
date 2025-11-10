@@ -38,3 +38,24 @@ export async function getSublevelInfo(sublevelId: number) {
     }
 }
 
+export async function getLevelInfo(levelId: number) {
+    try {
+        const crosswordController = getInjection('ICrosswordController') as ICrosswordController;
+        return await crosswordController.getLevelById(levelId);
+    } catch (error) {
+        console.error("Error getting level info:", error);
+        throw error;
+    }
+}
+
+export async function getSublevelsInfo(levelId: number) {
+    try {
+        const crosswordController = getInjection('ICrosswordController') as ICrosswordController;
+        return await crosswordController.listSublevels(levelId);
+    } catch (error) {
+        console.error("Error getting level info:", error);
+        throw error;
+    }
+}
+
+

@@ -6,6 +6,7 @@ import { registerModal, ModalContentProps } from "../modal-registry";
 
 export interface CompletionPhraseModalData {
     phrase: string;
+    onClose: () => void
 }
 
 export function CompletionPhraseModalContent({ data, onClose }: ModalContentProps<CompletionPhraseModalData>) {
@@ -37,7 +38,10 @@ export function CompletionPhraseModalContent({ data, onClose }: ModalContentProp
                 </div>
             </ModalBody>
             <ModalFooter>
-                <Button color="primary" onPress={onClose}>
+                <Button color="primary" onPress={() => {
+                    data.onClose();
+                    onClose();
+                }}>
                     Ок
                 </Button>
             </ModalFooter>

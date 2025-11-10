@@ -5,6 +5,7 @@ import { IGetCrosswordSublevelUseCase } from "@/core/application/use-cases/get-c
 import { ICompleteCrosswordSublevelUseCase, CompleteSublevelResult } from "@/core/application/use-cases/complete-crossword-sublevel.use-case";
 import { CrosswordLevel, CrosswordSublevel } from "@/generated/prisma";
 import {CrosswordWithTypedContent} from "@/core/application/interfaces/repositories/crosswords.repository.interface";
+import {IGetCrosswordLevelUseCase} from "@/core/application/use-cases/get-crossword-level.use-case";
 
 export type ICrosswordController = ReturnType<typeof crosswordController>;
 
@@ -13,12 +14,14 @@ export const crosswordController = (
     listSublevelsUseCase: IListCrosswordSublevelsUseCase,
     getCrosswordContentBySublevelUseCase: IGetCrosswordBySublevelUseCase,
     getCrosswordSublevelUseCase: IGetCrosswordSublevelUseCase,
+    getCrosswordLevelUseCase: IGetCrosswordLevelUseCase,
     completeCrosswordSublevelUseCase: ICompleteCrosswordSublevelUseCase,
 ) => ({
     listLevels: async (): Promise<CrosswordLevel[]> => listLevelsUseCase(),
     listSublevels: async (levelId: number): Promise<CrosswordSublevel[]> => listSublevelsUseCase(levelId),
     getCrosswordBySublevelId: async (sublevelId: number): Promise<CrosswordWithTypedContent> => getCrosswordContentBySublevelUseCase(sublevelId),
     getSublevelById: async (sublevelId: number): Promise<CrosswordSublevel> => getCrosswordSublevelUseCase(sublevelId),
+    getLevelById: async (levelId: number): Promise<CrosswordLevel> => getCrosswordLevelUseCase(levelId),
     completeSublevel: async (sublevelId: number): Promise<CompleteSublevelResult> => completeCrosswordSublevelUseCase(sublevelId),
 });
 

@@ -56,8 +56,7 @@ export function crosswordReducer(state: CrosswordState, action: CrosswordAction)
             const row = action.newRow;
             const col = action.newCol;
             const cell = state.cellsProperties[row]?.[col];
-
-            console.log("SELECT_NEW_CELL", action.newRow, action.newCol, row, col, cell);
+            
             if (cell && cell.wordIndexes.length > 0) {
                 // Если клетка принадлежит только одному слову, активируем его
                 if (cell.wordIndexes.length === 1) {

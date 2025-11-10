@@ -7,6 +7,7 @@ import { crosswordController } from "@/core/controllers/crossword.controller";
 import { getCrosswordBySublevelUseCase } from "@/core/application/use-cases/get-crossword-by-sublevel-use.case";
 import { getCrosswordSublevelUseCase } from "@/core/application/use-cases/get-crossword-sublevel.use-case";
 import { completeCrosswordSublevelUseCase } from "@/core/application/use-cases/complete-crossword-sublevel.use-case";
+import {getCrosswordLevelUseCase} from "@/core/application/use-cases/get-crossword-level.use-case";
 
 export function createCrosswordLevelsModule() {
     const moduleRef = createModule();
@@ -40,6 +41,13 @@ export function createCrosswordLevelsModule() {
         ]);
 
     moduleRef
+        .bind(DI_SYMBOLS.IGetCrosswordLevelUseCase)
+        .toHigherOrderFunction(getCrosswordLevelUseCase, [
+            DI_SYMBOLS.ICrosswordLevelsRepository,
+        ]);
+
+
+    moduleRef
         .bind(DI_SYMBOLS.ICompleteCrosswordSublevelUseCase)
         .toHigherOrderFunction(completeCrosswordSublevelUseCase, [
             DI_SYMBOLS.ICrosswordLevelsRepository,
@@ -52,6 +60,7 @@ export function createCrosswordLevelsModule() {
             DI_SYMBOLS.IListCrosswordSublevelsUseCase,
             DI_SYMBOLS.IGetCrosswordBySublevelUseCase,
             DI_SYMBOLS.IGetCrosswordSublevelUseCase,
+            DI_SYMBOLS.IGetCrosswordLevelUseCase,
             DI_SYMBOLS.ICompleteCrosswordSublevelUseCase,
         ]);
 

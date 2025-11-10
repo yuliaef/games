@@ -12,7 +12,12 @@ import {CrosswordData} from "@/app/entities/crossword/crossword";
 import {crosswordReducer} from "@/app/reducers/crossword";
 import {createEmptyState} from "@/app/entities/crossword/state";
 import {useModal} from "@/app/hooks/use-modal";
-import {completeCrosswordSublevel, getSublevelInfo} from "@/app/actions/crossword-actions";
+import {
+    completeCrosswordSublevel,
+    getLevelInfo,
+    getSublevelInfo,
+    getSublevelsInfo
+} from "@/app/actions/crossword-actions";
 
 type Props = {
     data: CrosswordData;
@@ -211,12 +216,20 @@ export default function Crossword({ data, sublevelId }: Props) {
                 // Открываем модальное окно с фрагментом фразы
                 openModal("completion-phrase", {
                     phrase: sublevelInfo.phrasePart || "",
-                });
+                    onClose: async () => {
+                        console.log('close')
+                        const levelInfo = await getLevelInfo(sublevelInfo.levelId);
+                        const sublevels =  await getSublevelsInfo(sublevelInfo.levelId);
+                        const phraseParts = sublevels.map((sublevel) => sublevel.phrasePart);
 
-                // TODO: Если нет следующего подуровня, показать модальное окно завершения уровня
-                // if (!result.hasNextSublevel) {
-                //     openModal("level-completion", { ... });
-                // }
+                        if (!result.hasNextSublevel) {
+                            openModal("level-completion", {
+                                phrase: levelInfo.phrase,
+                                pieces: phraseParts
+                            });
+                        }
+                    }
+                });
             } catch (error) {
                 console.error("Error completing crossword:", error);
             }
@@ -225,11 +238,45 @@ export default function Crossword({ data, sublevelId }: Props) {
         handleCompletion();
     }, [state.definitionProperties, hasCompleted, sublevelId, openModal]);
 
+    const handleCompletion2 = async () => {
+        try {
+            // Получаем информацию о подуровне (включая phrasePart)
+            const sublevelInfo = await getSublevelInfo(sublevelId);
+            const result = await completeCrosswordSublevel(sublevelId);
+
+            openModal("completion-phrase", {
+                phrase: sublevelInfo.phrasePart || "",
+                onClose: async () => {
+                    console.log('close')
+                    const levelInfo = await getLevelInfo(sublevelInfo.levelId);
+                    const sublevels =  await getSublevelsInfo(sublevelInfo.levelId);
+                    const phraseParts = sublevels.map((sublevel) => sublevel.phrasePart);
+
+                    if (!result.hasNextSublevel) {
+                        openModal("level-completion", {
+                            phrase: levelInfo.phrase,
+                            pieces: phraseParts
+                        });
+                    }
+                }
+            });
+
+            if (!sublevelInfo) {
+                console.error("Sublevel not found");
+                return;
+            }
+        } catch (error) {
+            console.error("Error completing crossword:", error);
+        }
+    };
+
     return (
         <div className={styles.crossword}>
             <h2 className={clsx(styles["crossword__title"], "title--h2", "text_m")}>
                 Кроссворд
             </h2>
+
+            <button onClick={handleCompletion2}>dddd</button>
 
             <div className={styles["crossword__field"]}>
                 <div className={styles["crossword__main"]}>

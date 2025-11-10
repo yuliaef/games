@@ -38,6 +38,17 @@ export class CrosswordsRepository implements ICrosswordsRepository {
         }
     }
 
+    async getLevelById(levelId: number): Promise<CrosswordLevel | null> {
+        try {
+            return prisma.crosswordLevel.findUnique({
+                where: { id: levelId },
+            }) as unknown as CrosswordLevel | null;
+        } catch (err) {
+            throw err;
+        }
+    }
+
+
     async getCrosswordBySublevelId(sublevelId: number): Promise<CrosswordWithTypedContent | null> {
         try {
             return prisma.crossword.findUnique({

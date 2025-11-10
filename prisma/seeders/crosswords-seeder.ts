@@ -10,6 +10,7 @@ type CrosswordData = {
         colStart: number;
         description?: string;
         hint?: string;
+        imageUrl?: string;
     }>;
 };
 
@@ -25,7 +26,7 @@ const crosswordData1: CrosswordData = {
         { clue: "Восьмое слово", answer: "бассейн", position: 8, orientation: "down", rowStart: 7, colStart: 10, description: "самое кайфовое место в Тбилиси" },
         { clue: "Девятое слово", answer: "валенсия", position: 9, orientation: "across", rowStart: 11, colStart: 7, description: "где было сделано это фото?)" },
         { clue: "Десятое слово", answer: "кокос", position: 10, orientation: "down", rowStart: 7, colStart: 12, description: "мороженое с каким продуктом в Саранске делают лучше чем в Испании?" },
-        { clue: "Одиннадцатое слово", answer: "медвежонок", position: 10, orientation: "across", rowStart: 13, colStart: 3, description: "как бы ты никогда не подумал, что тебя будут называть?" },
+        { clue: "Одиннадцатое слово", answer: "медвежонок", position: 11, orientation: "across", rowStart: 13, colStart: 3, description: "как бы ты никогда не подумал, что тебя будут называть?" },
     ],
 };
 
@@ -46,17 +47,17 @@ const crosswordData2: CrosswordData = {
 
 const crosswordData3: CrosswordData = {
     words: [
-        { clue: "Первое слово", answer: "диплом", position: 1, orientation: "across", rowStart: 2, colStart: 14, description: "это то что я делала, когда сделала это фото", hint: "на нем сайт с расписанием сдачи" },
-        { clue: "Второе слово", answer: "нерешаемая", position: 2, orientation: "across", rowStart: 11, colStart: 5, description: "эта головоломка была ..." },
-        { clue: "Тертье слово", answer: "лыжник", position: 3, orientation: "across", rowStart: 16, colStart: 6, description: "на фото очень отважный ..." },
-        { clue: "Четретое слово", answer: "футбол", position: 4, orientation: "down", rowStart: 4, colStart: 2, description: "это было когда я ходила как волонтер на ..." },
-        { clue: "Пятое слово", answer: "эвакуатор", position: 5, orientation: "down", rowStart: 3, colStart: 7, description: "в тот день мы вызвали ___" },
-        { clue: "Шестое слово", answer: "ребенок", position: 6, orientation: "down", rowStart: 10, colStart: 11, description: "эту веточку подарил мне ___" },
-        { clue: "Седьмое слово", answer: "пиньята", position: 7, orientation: "across", rowStart: 14, colStart: 9, description: " на дне рождения была ___ в виде египетской пирамиды" },
-        { clue: "Восьмое слово", answer: "док-станция", position: 8, orientation: "across", rowStart: 8, colStart: 1, description: "это была ... от моего ноутбука" },
-        { clue: "Девятое слово", answer: "замороженное", position: 9, orientation: "across", rowStart: 5, colStart: 6, description: "масло было ___" },
-        { clue: "Десятое слово", answer: "мечта", position: 10, orientation: "down", rowStart: 2, colStart: 19, description: "это была моя ___" },
-        { clue: "Одиннадцатое слово", answer: "диван", position: 11, orientation: "down", rowStart: 1, colStart: 15, description: "так я ударилась об ___" },
+        { clue: "Первое слово", answer: "диплом", position: 1, orientation: "across", rowStart: 2, colStart: 14, description: "это то что я делала, когда сделала это фото", hint: "на нем сайт с расписанием сдачи", imageUrl: 'public/images/crosswords/1.jpg' },
+        { clue: "Второе слово", answer: "нерешаемая", position: 2, orientation: "across", rowStart: 11, colStart: 5, description: "эта головоломка была ...", imageUrl: 'public/images/crosswords/2.jpg' },
+        { clue: "Тертье слово", answer: "лыжник", position: 3, orientation: "across", rowStart: 16, colStart: 6, description: "на фото очень отважный ...", imageUrl: 'public/images/crosswords/3.jpg' },
+        { clue: "Четретое слово", answer: "футбол", position: 4, orientation: "down", rowStart: 4, colStart: 2, description: "это было когда я ходила как волонтер на ...", imageUrl: 'public/images/crosswords/4.jpg' },
+        { clue: "Пятое слово", answer: "эвакуатор", position: 5, orientation: "down", rowStart: 3, colStart: 7, description: "в тот день мы вызвали ___", imageUrl: 'public/images/crosswords/5.jpg' },
+        { clue: "Шестое слово", answer: "ребенок", position: 6, orientation: "down", rowStart: 10, colStart: 11, description: "эту веточку подарил мне ___", imageUrl: 'public/images/crosswords/6.jpg' },
+        { clue: "Седьмое слово", answer: "пиньята", position: 7, orientation: "across", rowStart: 14, colStart: 9, description: " на дне рождения была ___ в виде египетской пирамиды", imageUrl: 'public/images/crosswords/7.jpg' },
+        { clue: "Восьмое слово", answer: "док-станция", position: 8, orientation: "across", rowStart: 8, colStart: 1, description: "это была ... от моего ноутбука", imageUrl: 'public/images/crosswords/8.jpg' },
+        { clue: "Девятое слово", answer: "замороженное", position: 9, orientation: "across", rowStart: 5, colStart: 6, description: "масло было ___", imageUrl: 'public/images/crosswords/9.jpg' },
+        { clue: "Десятое слово", answer: "мечта", position: 10, orientation: "down", rowStart: 2, colStart: 19, description: "это была моя ___", imageUrl: 'public/images/crosswords/10.jpg' },
+        { clue: "Одиннадцатое слово", answer: "диван", position: 11, orientation: "down", rowStart: 1, colStart: 15, description: "так я ударилась об ___", imageUrl: 'public/images/crosswords/11.jpg' },
     ],
 };
 
