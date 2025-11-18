@@ -3,13 +3,16 @@
 import { getInjection } from "@/di/container";
 import { ICrosswordController } from "@/core/controllers/crossword.controller";
 
-/**
- * Отмечает подуровень как завершенный и разблокирует следующий подуровень
- */
 export async function completeCrosswordSublevel(sublevelId: number) {
     try {
         const crosswordController = getInjection('ICrosswordController') as ICrosswordController;
-        return await crosswordController.completeSublevel(sublevelId);
+        const result = await crosswordController.completeSublevel(sublevelId);
+        // TODO complete level if it is the last sublevel
+        if (!result.hasNextSublevel) {
+
+        }
+
+        return result;
     } catch (error) {
         console.error("Error completing sublevel:", error);
         throw error;

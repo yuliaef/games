@@ -12,10 +12,8 @@ export const completeCrosswordSublevelUseCase = (
     crosswordLevelsRepository: ICrosswordsRepository,
 ) =>
     async (sublevelId: number): Promise<CompleteSublevelResult> => {
-        // Отмечаем подуровень как завершенный
         await crosswordLevelsRepository.completeSublevel(sublevelId);
 
-        // Разблокируем следующий подуровень
         const nextSublevel = await crosswordLevelsRepository.unlockNextSublevel(sublevelId);
 
         return {

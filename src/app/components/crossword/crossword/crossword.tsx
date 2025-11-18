@@ -7,7 +7,6 @@ import styles from "./crossword.module.scss";
 import {Keys} from "@/app/entities/keys";
 import {CrosswordActionType} from "@/app/entities/crossword/actions";
 import {useEffect, useMemo, useReducer, useRef, useState} from "react";
-import {Definition} from "@/app/entities/crossword/definition";
 import {CrosswordData} from "@/app/entities/crossword/crossword";
 import {crosswordReducer} from "@/app/reducers/crossword";
 import {createEmptyState} from "@/app/entities/crossword/state";
@@ -18,6 +17,7 @@ import {
     getSublevelInfo,
     getSublevelsInfo
 } from "@/app/actions/crossword-actions";
+import {useLoadingStore} from "@/app/store/loading.store";
 
 type Props = {
     data: CrosswordData;
@@ -26,14 +26,14 @@ type Props = {
 
 export default function Crossword({ data, sublevelId }: Props) {
     const [state, dispatch] = useReducer(crosswordReducer, undefined, createEmptyState);
-    const [showPieceModal, setShowPieceModal] = useState(false);
-    const [showFinalModal, setShowFinalModal] = useState(false);
     const [hasCompleted, setHasCompleted] = useState(false);
 
     const inputRefs = useRef<Array<HTMLInputElement | null>>([]);
     const shouldFocusFirstRef = useRef(false);
     const shouldAutoAdvanceRef = useRef(false);
     const { openModal } = useModal();
+
+    const setLoading = useLoadingStore((s) => s.setLoading);
 
     const orientation = useMemo(() => {
         return state.wordsProperties[state.activePosition]?.orientation ?? "across";
@@ -97,11 +97,8 @@ export default function Crossword({ data, sublevelId }: Props) {
         };
 
         if (isLetter) {
-            // Разрешаем автопереход только если текущее действие — ввод символа
             shouldAutoAdvanceRef.current = true;
             dispatch({ type: CrosswordActionType.SET_CELL_VALUE, row: rowIdx, col: colIdx, value: e.key });
-            // if current word becomes done after this key, reducer validation and effect will move to next word
-            // move to next cell in current word
             moveWithinWord(1);
             e.preventDefault();
             return;
@@ -127,7 +124,6 @@ export default function Crossword({ data, sublevelId }: Props) {
                 return;
             }
             case Keys.LEFT_ARROW:
-                // Навигация стрелками не должна триггерить автопереход
                 shouldAutoAdvanceRef.current = false;
                 focusTo(rowIdx, colIdx, 0, -1);
                 e.preventDefault();
@@ -189,20 +185,17 @@ export default function Crossword({ data, sublevelId }: Props) {
     useEffect(advanceToNextWordAfterPreviousCompleted, [state.definitionProperties, state.activePosition]);
     useEffect(focusOnFirstCellAfterWordAdvance, [state.activePosition, state.firstCellsOfWords, state.colsCount]);
 
-    // Определение завершения кроссворда: когда все определения выполнены
     useEffect(() => {
         const defs = state.definitionProperties;
         const completed = defs.length > 0 && defs.every((d) => d.isDone);
 
         if (!completed || hasCompleted) return;
 
-        // Помечаем как завершенный, чтобы не вызывать повторно
         setHasCompleted(true);
 
-        // Обрабатываем завершение асинхронно
         const handleCompletion = async () => {
             try {
-                // Получаем информацию о подуровне (включая phrasePart)
+                setLoading(true);
                 const sublevelInfo = await getSublevelInfo(sublevelId);
 
                 if (!sublevelInfo) {
@@ -210,73 +203,47 @@ export default function Crossword({ data, sublevelId }: Props) {
                     return;
                 }
 
-                // Отмечаем подуровень как завершенный и разблокируем следующий
                 const result = await completeCrosswordSublevel(sublevelId);
 
-                // Открываем модальное окно с фрагментом фразы
                 openModal("completion-phrase", {
                     phrase: sublevelInfo.phrasePart || "",
                     onClose: async () => {
-                        console.log('close')
-                        const levelInfo = await getLevelInfo(sublevelInfo.levelId);
-                        const sublevels =  await getSublevelsInfo(sublevelInfo.levelId);
-                        const phraseParts = sublevels.map((sublevel) => sublevel.phrasePart);
+                        try {
+                            setLoading(true);
 
-                        if (!result.hasNextSublevel) {
-                            openModal("level-completion", {
-                                phrase: levelInfo.phrase,
-                                pieces: phraseParts
-                            });
+                            const levelInfo = await getLevelInfo(sublevelInfo.levelId);
+                            const sublevels =  await getSublevelsInfo(sublevelInfo.levelId);
+                            const phraseParts = sublevels.map((sublevel) => sublevel.phrasePart);
+
+                            if (!result.hasNextSublevel) {
+                                openModal("level-completion", {
+                                    phrase: levelInfo.phrase,
+                                    pieces: phraseParts
+                                });
+                            }
+                        }
+                        catch (error) {
+                            console.error("Error completing crossword:", error);
+                        } finally {
+                            setLoading(false);
                         }
                     }
                 });
             } catch (error) {
                 console.error("Error completing crossword:", error);
+            } finally {
+                setLoading(false);
             }
         };
 
         handleCompletion();
     }, [state.definitionProperties, hasCompleted, sublevelId, openModal]);
 
-    const handleCompletion2 = async () => {
-        try {
-            // Получаем информацию о подуровне (включая phrasePart)
-            const sublevelInfo = await getSublevelInfo(sublevelId);
-            const result = await completeCrosswordSublevel(sublevelId);
-
-            openModal("completion-phrase", {
-                phrase: sublevelInfo.phrasePart || "",
-                onClose: async () => {
-                    console.log('close')
-                    const levelInfo = await getLevelInfo(sublevelInfo.levelId);
-                    const sublevels =  await getSublevelsInfo(sublevelInfo.levelId);
-                    const phraseParts = sublevels.map((sublevel) => sublevel.phrasePart);
-
-                    if (!result.hasNextSublevel) {
-                        openModal("level-completion", {
-                            phrase: levelInfo.phrase,
-                            pieces: phraseParts
-                        });
-                    }
-                }
-            });
-
-            if (!sublevelInfo) {
-                console.error("Sublevel not found");
-                return;
-            }
-        } catch (error) {
-            console.error("Error completing crossword:", error);
-        }
-    };
-
     return (
         <div className={styles.crossword}>
             <h2 className={clsx(styles["crossword__title"], "title--h2", "text_m")}>
                 Кроссворд
             </h2>
-
-            <button onClick={handleCompletion2}>dddd</button>
 
             <div className={styles["crossword__field"]}>
                 <div className={styles["crossword__main"]}>

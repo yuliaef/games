@@ -9,7 +9,7 @@ export class CrosswordsRepository implements ICrosswordsRepository {
     async listLevels(): Promise<CrosswordLevel[]> {
         try {
             return prisma.crosswordLevel.findMany({
-                orderBy: { createdAt: "asc" },
+                orderBy: { id: "asc" },
                 include: { sublevels: false },
             }) as unknown as CrosswordLevel[];
         } catch (err) {
@@ -21,7 +21,7 @@ export class CrosswordsRepository implements ICrosswordsRepository {
         try {
             return prisma.crosswordSublevel.findMany({
                 where: { levelId },
-                orderBy: { createdAt: "asc" },
+                orderBy: { id: "asc" },
             }) as unknown as CrosswordSublevel[];
         } catch (err) {
             throw err;
@@ -73,7 +73,6 @@ export class CrosswordsRepository implements ICrosswordsRepository {
 
     async unlockNextSublevel(sublevelId: number): Promise<CrosswordSublevel | null> {
         try {
-            // Получаем текущий подуровень
             const currentSublevel = await prisma.crosswordSublevel.findUnique({
                 where: { id: sublevelId },
                 include: { level: true },
@@ -83,17 +82,14 @@ export class CrosswordsRepository implements ICrosswordsRepository {
                 return null;
             }
 
-            // Находим все подуровни в том же уровне
             const allSublevels = await prisma.crosswordSublevel.findMany({
                 where: { levelId: currentSublevel.levelId },
                 orderBy: { id: "asc" },
             });
 
-            // Находим индекс текущего подуровня
             const currentIndex = allSublevels.findIndex((s) => s.id === sublevelId);
             const nextSublevel = allSublevels[currentIndex + 1];
 
-            // Если следующий подуровень существует и заблокирован, разблокируем его
             if (nextSublevel && nextSublevel.locked) {
                 const unlocked = await prisma.crosswordSublevel.update({
                     where: { id: nextSublevel.id },

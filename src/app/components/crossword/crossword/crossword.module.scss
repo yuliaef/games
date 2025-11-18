@@ -5,7 +5,6 @@
 }
 
 .crossword__main {
-  margin-bottom: 1rem;
   flex: 1 1 50%;
 }
 
@@ -14,13 +13,11 @@
   gap: 16px;
 }
 
-/* Grid visuals */
 .crossword__row {
   display: flex;
 }
 
 .crossword__definitions {
-  margin-top: 2rem;
   padding: 1rem;
   background: #f8f9fa;
   border-radius: 0.5rem;
