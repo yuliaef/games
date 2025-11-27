@@ -18,7 +18,6 @@ const SignOutBtn = () => {
             router.push(Routes.SignIn);
         } catch (error) {
             console.error("error", error);
-        } finally {
             setLoading(false);
         }
     };
