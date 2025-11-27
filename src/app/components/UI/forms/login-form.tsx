@@ -39,13 +39,13 @@ const LoginForm = () => {
 
             if (result?.error) {
                 setError("Неверный логин или пароль");
+                setLoading(false);
                 return;
             }
 
             router.push(Routes.Home);
         } catch {
             setError("Ошибка сети. Попробуйте ещё раз.");
-        } finally {
             setLoading(false);
         }
     };

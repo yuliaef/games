@@ -1,9 +1,24 @@
 "use client";
 
+import {useEffect, useRef} from "react";
+import {usePathname} from "next/navigation";
 import {useLoadingStore} from "@/app/store/loading.store";
 
 export function GlobalLoader() {
+    const pathname = usePathname();
     const isLoading = useLoadingStore((s) => s.isLoading);
+    const setLoading = useLoadingStore((s) => s.setLoading);
+    const isLoadingRef = useRef(isLoading);
+
+    useEffect(() => {
+        isLoadingRef.current = isLoading;
+    }, [isLoading]);
+
+    useEffect(() => {
+        if (isLoadingRef.current) {
+            setLoading(false);
+        }
+    }, [pathname, setLoading]);
 
     if (!isLoading) return null;
 
