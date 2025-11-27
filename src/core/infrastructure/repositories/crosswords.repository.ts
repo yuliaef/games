@@ -104,6 +104,17 @@ export class CrosswordsRepository implements ICrosswordsRepository {
             throw err;
         }
     }
+
+    async completeLevel(levelId: number): Promise<void> {
+        try {
+            await prisma.crosswordLevel.update({
+                where: { id: levelId },
+                data: { completed: true },
+            });
+        } catch (err) {
+            throw err;
+        }
+    }
 }
 
 

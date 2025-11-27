@@ -7,14 +7,19 @@ export async function completeCrosswordSublevel(sublevelId: number) {
     try {
         const crosswordController = getInjection('ICrosswordController') as ICrosswordController;
         const result = await crosswordController.completeSublevel(sublevelId);
-        // TODO complete level if it is the last sublevel
-        if (!result.hasNextSublevel) {
-
-        }
-
         return result;
     } catch (error) {
         console.error("Error completing sublevel:", error);
+        throw error;
+    }
+}
+
+export async function completeCrosswordLevel(levelId: number) {
+    try {
+        const crosswordController = getInjection('ICrosswordController') as ICrosswordController;
+        await crosswordController.completeLevel(levelId);
+    } catch (error) {
+        console.error("Error completing level:", error);
         throw error;
     }
 }

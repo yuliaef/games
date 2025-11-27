@@ -11,6 +11,7 @@ export interface ICrosswordsRepository {
     getCrosswordBySublevelId(sublevelId: number): Promise<CrosswordWithTypedContent | null>;
     completeSublevel(sublevelId: number): Promise<void>;
     unlockNextSublevel(sublevelId: number): Promise<CrosswordSublevel | null>;
+    completeLevel(levelId: number): Promise<void>;
 }
 
 

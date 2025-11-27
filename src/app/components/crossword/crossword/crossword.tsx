@@ -12,6 +12,7 @@ import {crosswordReducer} from "@/app/reducers/crossword";
 import {createEmptyState} from "@/app/entities/crossword/state";
 import {useModal} from "@/app/hooks/use-modal";
 import {
+    completeCrosswordLevel,
     completeCrosswordSublevel,
     getLevelInfo,
     getSublevelInfo,
@@ -211,11 +212,12 @@ export default function Crossword({ data, sublevelId }: Props) {
                         try {
                             setLoading(true);
 
-                            const levelInfo = await getLevelInfo(sublevelInfo.levelId);
-                            const sublevels =  await getSublevelsInfo(sublevelInfo.levelId);
-                            const phraseParts = sublevels.map((sublevel) => sublevel.phrasePart);
-
                             if (!result.hasNextSublevel) {
+                                await completeCrosswordLevel(sublevelInfo.levelId);
+                                const levelInfo = await getLevelInfo(sublevelInfo.levelId);
+                                const sublevels =  await getSublevelsInfo(sublevelInfo.levelId);
+                                const phraseParts = sublevels.map((sublevel) => sublevel.phrasePart);
+
                                 openModal("level-completion", {
                                     phrase: levelInfo.phrase,
                                     pieces: phraseParts
