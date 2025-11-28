@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useCallback, useMemo, useRef, useState } from "react";
 import { Button } from "@heroui/react";
 import { ModalHeader, ModalBody, ModalFooter } from "@heroui/modal";
 import {registerModal} from "@/app/components/modal/modal-registry";
@@ -7,6 +7,7 @@ import {registerModal} from "@/app/components/modal/modal-registry";
 type LevelCompletionModalData = {
     phrase: string;     // правильная целевая фраза
     pieces: string[];   // все кусочки для сборки (в любом порядке)
+    onSolved?: () => Promise<void> | void;
 };
 
 type ModalContentProps<T> = {
@@ -25,6 +26,22 @@ export function LevelCompletionModalContent({
     const [order, setOrder] = useState<string[]>(initial);
     const [isCorrect, setIsCorrect] = useState(false);
     const [checked, setChecked] = useState(false);
+    const solvedRef = useRef(false);
+
+    const handleSolved = useCallback(async () => {
+        if (solvedRef.current) return;
+        solvedRef.current = true;
+
+        try {
+            if (data.onSolved) {
+                await data.onSolved();
+            }
+            onClose();
+        } catch (error) {
+            console.error("Failed to finalize level:", error);
+            solvedRef.current = false;
+        }
+    }, [data.onSolved, onClose]);
 
     const norm = (s: string) => s.replace(/\s+/g, " ").trim().toLowerCase();
 
@@ -62,8 +79,13 @@ export function LevelCompletionModalContent({
     const checkAnswer = () => {
         const sentence = norm(order.join(" "));
         const expected = norm(phrase);
-        setIsCorrect(sentence === expected);
+        const isMatch = sentence === expected;
+        setIsCorrect(isMatch);
         setChecked(true);
+
+        if (isMatch) {
+            void handleSolved();
+        }
     };
 
     const resetOrder = () => {

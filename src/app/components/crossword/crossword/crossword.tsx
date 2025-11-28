@@ -31,10 +31,12 @@ export default function Crossword({ data, sublevelId }: Props) {
     const [hasCompleted, setHasCompleted] = useState(false);
     const [sublevelInfo, setSublevelInfo] = useState<Awaited<ReturnType<typeof getSublevelInfo>> | null>(null);
     const [isLastSublevel, setIsLastSublevel] = useState(false);
+    const [isLevelCompleted, setIsLevelCompleted] = useState(false);
 
     const inputRefs = useRef<Array<HTMLInputElement | null>>([]);
     const shouldFocusFirstRef = useRef(false);
     const shouldAutoAdvanceRef = useRef(false);
+    const levelCompletionRef = useRef(false);
     const { openModal } = useModal();
 
     const setLoading = useLoadingStore((s) => s.setLoading);
@@ -58,11 +60,20 @@ export default function Crossword({ data, sublevelId }: Props) {
 
                 setSublevelInfo(info);
 
-                const sublevels = await getSublevelsInfo(info.levelId);
+                const [sublevels, levelInfo] = await Promise.all([
+                    getSublevelsInfo(info.levelId),
+                    getLevelInfo(info.levelId),
+                ]);
                 if (!isMounted) return;
 
                 const lastSublevel = sublevels.at(-1);
                 setIsLastSublevel(lastSublevel?.id === sublevelId);
+
+                if (levelInfo) {
+                    const completed = levelInfo.completed ?? false;
+                    setIsLevelCompleted(completed);
+                    levelCompletionRef.current = completed;
+                }
             } catch (error) {
                 console.error("Failed to fetch sublevel meta:", error);
             }
@@ -216,6 +227,61 @@ export default function Crossword({ data, sublevelId }: Props) {
     useEffect(advanceToNextWordAfterPreviousCompleted, [state.definitionProperties, state.activePosition]);
     useEffect(focusOnFirstCellAfterWordAdvance, [state.activePosition, state.firstCellsOfWords, state.colsCount]);
 
+    const markLevelCompleted = useCallback(() => {
+        levelCompletionRef.current = true;
+        setIsLevelCompleted(true);
+    }, []);
+
+    const presentLevelCompletionModal = useCallback(
+        async (levelId: number) => {
+            try {
+                setLoading(true);
+                const [levelInfo, sublevels] = await Promise.all([
+                    getLevelInfo(levelId),
+                    getSublevelsInfo(levelId),
+                ]);
+
+                if (!levelInfo) {
+                    console.error("Level info not found");
+                    return;
+                }
+
+                const phraseParts = sublevels.map((sublevel) => sublevel.phrasePart || "");
+                const canFinalize = !levelCompletionRef.current;
+
+                const handleSolved = canFinalize
+                    ? async () => {
+                        if (levelCompletionRef.current) return;
+
+                        try {
+                            setLoading(true);
+                            await completeCrosswordLevel(levelId);
+                            markLevelCompleted();
+                            openModal("level-finished", {
+                                phrase: levelInfo.phrase,
+                            });
+                        } catch (error) {
+                            console.error("Error completing level:", error);
+                        } finally {
+                            setLoading(false);
+                        }
+                    }
+                    : undefined;
+
+                openModal("level-completion", {
+                    phrase: levelInfo.phrase,
+                    pieces: phraseParts,
+                    onSolved: handleSolved,
+                });
+            } catch (error) {
+                console.error("Failed to open level completion modal:", error);
+            } finally {
+                setLoading(false);
+            }
+        },
+        [markLevelCompleted, openModal, setLoading]
+    );
+
     useEffect(() => {
         const defs = state.definitionProperties;
         const completed = defs.length > 0 && defs.every((d) => d.isDone);
@@ -242,25 +308,8 @@ export default function Crossword({ data, sublevelId }: Props) {
                 openModal("completion-phrase", {
                     phrase: fetchedSublevelInfo.phrasePart || "",
                     onClose: async () => {
-                        try {
-                            setLoading(true);
-
-                            if (!result.hasNextSublevel) {
-                                await completeCrosswordLevel(fetchedSublevelInfo.levelId);
-                                const levelInfo = await getLevelInfo(fetchedSublevelInfo.levelId);
-                                const sublevels =  await getSublevelsInfo(fetchedSublevelInfo.levelId);
-                                const phraseParts = sublevels.map((sublevel) => sublevel.phrasePart);
-
-                                openModal("level-completion", {
-                                    phrase: levelInfo.phrase,
-                                    pieces: phraseParts
-                                });
-                            }
-                        }
-                        catch (error) {
-                            console.error("Error completing crossword:", error);
-                        } finally {
-                            setLoading(false);
+                        if (!result.hasNextSublevel) {
+                            await presentLevelCompletionModal(fetchedSublevelInfo.levelId);
                         }
                     }
                 });
@@ -272,7 +321,7 @@ export default function Crossword({ data, sublevelId }: Props) {
         };
 
         handleCompletion();
-    }, [state.definitionProperties, hasCompleted, sublevelId, openModal]);
+    }, [state.definitionProperties, hasCompleted, sublevelId, openModal, presentLevelCompletionModal]);
 
     const handleShowPhraseModal = useCallback(() => {
         if (!sublevelInfo?.completed) return;
@@ -286,30 +335,23 @@ export default function Crossword({ data, sublevelId }: Props) {
     const handleShowLevelPhraseModal = useCallback(async () => {
         if (!sublevelInfo?.completed || !isLastSublevel) return;
 
-        try {
-            setLoading(true);
-            const [levelInfo, sublevels] = await Promise.all([
-                getLevelInfo(sublevelInfo.levelId),
-                getSublevelsInfo(sublevelInfo.levelId),
-            ]);
-
-            if (!levelInfo) {
-                console.error("Level info not found");
-                return;
+        if (isLevelCompleted) {
+            try {
+                setLoading(true);
+                const levelInfo = await getLevelInfo(sublevelInfo.levelId);
+                if (levelInfo) {
+                    openModal("level-finished", { phrase: levelInfo.phrase });
+                }
+            } catch (error) {
+                console.error("Failed to open level completion modal:", error);
+            } finally {
+                setLoading(false);
             }
-
-            const phraseParts = sublevels.map((sublevel) => sublevel.phrasePart);
-
-            openModal("level-completion", {
-                phrase: levelInfo.phrase,
-                pieces: phraseParts,
-            });
-        } catch (error) {
-            console.error("Failed to open level completion modal:", error);
-        } finally {
-            setLoading(false);
+            return;
         }
-    }, [sublevelInfo, isLastSublevel, openModal, setLoading]);
+
+        await presentLevelCompletionModal(sublevelInfo.levelId);
+    }, [sublevelInfo, isLastSublevel, isLevelCompleted, presentLevelCompletionModal, openModal, setLoading]);
 
     return (
         <div className={styles.crossword}>
@@ -325,14 +367,16 @@ export default function Crossword({ data, sublevelId }: Props) {
                 >
                     Показать фразу уровня
                 </Button>
-                <Button
-                    variant="flat"
-                    color="secondary"
-                    isDisabled={!sublevelInfo?.completed || !isLastSublevel}
-                    onPress={handleShowLevelPhraseModal}
-                >
-                    Собрать фразу уровня
-                </Button>
+                {isLastSublevel && (
+                    <Button
+                        variant="flat"
+                        color="secondary"
+                        isDisabled={!sublevelInfo?.completed}
+                        onPress={handleShowLevelPhraseModal}
+                    >
+                        {isLevelCompleted ? "Фраза собрана" : "Собрать фразу уровня"}
+                    </Button>
+                )}
             </div>
 
             <div className={styles["crossword__field"]}>
