@@ -100,8 +100,8 @@ export function crosswordReducer(state: CrosswordState, action: CrosswordAction)
             
             // Если не нашли слово, начинающееся с этой клетки, используем старую логику
             if (chosen === undefined) {
-                const [first, second] = positions;
-                // При клике выбираем первое слово (а не второе)
+                const [first] = positions;
+                // При клике выбираем первое слово
                 chosen = first;
             }
             

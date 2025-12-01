@@ -1,8 +1,9 @@
 "use client";
+/* eslint-disable @next/next/no-img-element */
 
 import { ModalHeader, ModalBody, ModalFooter } from "@heroui/modal";
 import { Button } from "@heroui/button";
-import { registerModal, ModalContentProps } from "../modal-registry";
+import { ModalContentProps } from "../modal-registry";
 import { Definition } from "@/app/entities/crossword/definition";
 import { useState } from "react";
 
@@ -10,9 +11,9 @@ export interface DefinitionModalData {
     definition: Definition;
 }
 
-export function DefinitionModalContent({ data, onClose }: ModalContentProps<DefinitionModalData>) {
+export function DefinitionModalContent({ data, onClose }: ModalContentProps) {
+    const { definition } = data as DefinitionModalData;
     const [isHintOpen, setIsHintOpen] = useState(false);
-    const { definition } = data;
 
     const handleToggleHint = () => {
         setIsHintOpen((prev) => !prev);
@@ -49,16 +50,27 @@ export function DefinitionModalContent({ data, onClose }: ModalContentProps<Defi
                             }}>
                                 Картинка
                             </div>
-                            <img
-                                src={definition.imageUrl}
-                                alt="Иллюстрация"
+                            <div
                                 style={{
+                                    width: "100%",
                                     maxWidth: "100%",
-                                    height: "auto",
                                     borderRadius: "0.5rem",
+                                    overflow: "hidden",
                                     border: "1px solid var(--heroui-default-200, #e4e4e7)",
                                 }}
-                            />
+                            >
+                                <img
+                                    src={definition.imageUrl}
+                                    alt="Иллюстрация"
+                                    style={{
+                                        display: "block",
+                                        width: "100%",
+                                        height: "auto",
+                                        objectFit: "cover",
+                                    }}
+                                    loading="lazy"
+                                />
+                            </div>
                         </div>
                     )}
 

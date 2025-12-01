@@ -1,10 +1,10 @@
-export type ModalData<T = any> = T;
+export type ModalData<T = unknown> = T;
 
 export type ModalId = string;
 
 export type ModalType = string;
 
-export interface ModalConfig<T = any> {
+export interface ModalConfig<T = unknown> {
     id: ModalId;
     type: ModalType;
     data: ModalData<T>;
@@ -13,7 +13,7 @@ export interface ModalConfig<T = any> {
     size?: 'sm' | 'md' | 'lg' | 'xl' | 'full';
 }
 
-export interface ModalState<T = any> extends ModalConfig<T> {
+export interface ModalState<T = unknown> extends ModalConfig<T> {
     isOpen: boolean;
 }
 

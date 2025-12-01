@@ -9,14 +9,13 @@ import clsx from "clsx";
 interface Props {
   value: string;
   cell: Cell | undefined;
-  orientation: "across" | "down" | string;
   firstCellsOfWords: Point[];
   onKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void;
   onClick: () => void;
   inputRef?: (el: HTMLInputElement | null) => void;
 }
 
-export default function CrosswordCell({ value, cell, orientation, firstCellsOfWords, onKeyDown, onClick, inputRef }: Props) {
+export default function CrosswordCell({ value, cell, firstCellsOfWords, onKeyDown, onClick, inputRef }: Props) {
   if (!cell || cell.wordIndexes.length === 0) {
     return <div
         className={clsx(

@@ -6,7 +6,7 @@ import clsx from "clsx";
 import styles from "./crossword.module.scss";
 import {Keys} from "@/app/entities/keys";
 import {CrosswordActionType} from "@/app/entities/crossword/actions";
-import {useCallback, useEffect, useMemo, useReducer, useRef, useState} from "react";
+import {useCallback, useEffect, useReducer, useRef, useState} from "react";
 import {CrosswordData} from "@/app/entities/crossword/crossword";
 import {crosswordReducer} from "@/app/reducers/crossword";
 import {createEmptyState} from "@/app/entities/crossword/state";
@@ -40,10 +40,6 @@ export default function Crossword({ data, sublevelId }: Props) {
     const { openModal } = useModal();
 
     const setLoading = useLoadingStore((s) => s.setLoading);
-
-    const orientation = useMemo(() => {
-        return state.wordsProperties[state.activePosition]?.orientation ?? "across";
-    }, [state.wordsProperties, state.activePosition]);
 
     useEffect(() => {
         if (!data) return;
@@ -329,7 +325,7 @@ export default function Crossword({ data, sublevelId }: Props) {
         };
 
         handleCompletion();
-    }, [state.definitionProperties, hasCompleted, sublevelId, openModal, presentLevelCompletionModal]);
+    }, [state.definitionProperties, hasCompleted, sublevelId, openModal, presentLevelCompletionModal, setLoading]);
 
     const handleShowPhraseModal = useCallback(() => {
         if (!sublevelInfo?.completed) return;
@@ -404,7 +400,6 @@ export default function Crossword({ data, sublevelId }: Props) {
                                         }
                                         value={value}
                                         cell={cell}
-                                        orientation={orientation}
                                         firstCellsOfWords={state.firstCellsOfWords}
                                         onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) =>
                                             handleCellKey(rowIdx, colIdx, e)

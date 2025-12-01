@@ -14,29 +14,31 @@ export interface ConfirmModalData {
     cancelText?: string;
 }
 
-export function ConfirmModalContent({ data, onClose }: ModalContentProps<ConfirmModalData>) {
+export function ConfirmModalContent({ data, onClose }: ModalContentProps) {
+    const confirmData = data as ConfirmModalData;
+
     const handleConfirm = () => {
-        data.onConfirm?.();
+        confirmData.onConfirm?.();
         onClose();
     };
 
     const handleCancel = () => {
-        data.onCancel?.();
+        confirmData.onCancel?.();
         onClose();
     };
 
-    const message = data.message || data.content || "";
+    const message = confirmData.message || confirmData.content || "";
 
     return (
         <>
-            <ModalHeader>{data.title}</ModalHeader>
+            <ModalHeader>{confirmData.title}</ModalHeader>
             {message && <ModalBody>{message}</ModalBody>}
             <ModalFooter>
                 <Button variant="light" onPress={handleCancel}>
-                    {data.cancelText || "Отмена"}
+                    {confirmData.cancelText || "Отмена"}
                 </Button>
                 <Button color="primary" onPress={handleConfirm}>
-                    {data.confirmText || "Подтвердить"}
+                    {confirmData.confirmText || "Подтвердить"}
                 </Button>
             </ModalFooter>
         </>

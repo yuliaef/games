@@ -41,7 +41,7 @@ export function LevelCompletionModalContent({
             console.error("Failed to finalize level:", error);
             solvedRef.current = false;
         }
-    }, [data.onSolved, onClose]);
+    }, [data, onClose]);
 
     const norm = (s: string) => s.replace(/\s+/g, " ").trim().toLowerCase();
 

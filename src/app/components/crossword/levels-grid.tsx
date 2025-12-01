@@ -1,4 +1,6 @@
 import { getInjection } from "@/di/container";
+/* eslint-disable @next/next/no-img-element */
+
 import { ICrosswordController } from "@/core/controllers/crossword.controller";
 import Link from "next/link";
 import {Routes} from "@/app/routes";
