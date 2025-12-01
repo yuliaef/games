@@ -2,6 +2,7 @@
 
 import { Navbar, NavbarBrand, NavbarContent, NavbarItem } from "@heroui/react";
 import Link from "next/link";
+import { LogoImage } from "@/app/components/common/logo-image";
 import { Routes } from "@/app/routes";
 import SignOutBtn from "@/app/components/UI/buttons/sign-out-btn";
 
@@ -20,7 +21,7 @@ const Header = ({ userName }: HeaderProps) => {
                     href={Routes.Home}
                     className="flex items-center gap-2 text-[1.25rem] font-bold tracking-tight text-slate-700 hover:text-slate-500 transition-colors"
                 >
-                    <span>🐻🕶️</span>
+                    <LogoImage size={36} priority />
                     <span>Лехины игрухи</span>
                 </Link>
             </NavbarBrand>
