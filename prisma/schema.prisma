@@ -5,5 +5,5 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = "postgresql://postgres:root@localhost:5432/crosswords?schema=public"
+  url      = env("DATABASE_URL")
 }
