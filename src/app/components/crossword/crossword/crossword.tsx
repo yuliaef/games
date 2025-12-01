@@ -193,7 +193,15 @@ export default function Crossword({ data, sublevelId }: Props) {
     const handleCellClick = (rowIdx: number, colIdx: number) => {
         shouldAutoAdvanceRef.current = false;
         const positions = state.cellsProperties[rowIdx]?.[colIdx]?.wordIndexes ?? [];
-        dispatch({ type: CrosswordActionType.SET_ACTIVE_BY_CLICK, settings: { positions, mode: "click" } });
+        dispatch({ 
+            type: CrosswordActionType.SET_ACTIVE_BY_CLICK, 
+            settings: { 
+                positions, 
+                mode: "click",
+                row: rowIdx + 1, // Переводим в 1-based индекс
+                col: colIdx + 1  // Переводим в 1-based индекс
+            } 
+        });
         const index = state.colsCount * rowIdx + colIdx;
         const el = inputRefs.current[index];
         if (el) el.focus();

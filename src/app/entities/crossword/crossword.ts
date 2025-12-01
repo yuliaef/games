@@ -7,4 +7,6 @@ export interface CrosswordData {
 export interface CellInteractionSettings {
     mode: 'click' | 'keyboard';
     positions: number[];
+    row?: number;
+    col?: number;
 }

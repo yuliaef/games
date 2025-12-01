@@ -81,9 +81,30 @@ export function crosswordReducer(state: CrosswordState, action: CrosswordAction)
         }
         case "SET_ACTIVE_BY_CLICK": {
             const next = { ...state };
-            const { positions, mode } = action.settings;
-            const [first, second] = positions;
-            const chosen = second !== undefined ? second : first;
+            const { positions, mode, row, col } = action.settings;
+            
+            let chosen: number | undefined;
+            
+            // Если переданы координаты клетки, проверяем, является ли она первой клеткой какого-то слова
+            if (row !== undefined && col !== undefined) {
+                // Ищем слово, которое начинается с этой клетки
+                const wordIndexStartingHere = next.firstCellsOfWords.findIndex(
+                    (firstCell) => firstCell.row === row && firstCell.col === col
+                );
+                
+                if (wordIndexStartingHere !== -1 && positions.includes(wordIndexStartingHere)) {
+                    // Если эта клетка является первой клеткой слова, выбираем это слово
+                    chosen = wordIndexStartingHere;
+                }
+            }
+            
+            // Если не нашли слово, начинающееся с этой клетки, используем старую логику
+            if (chosen === undefined) {
+                const [first, second] = positions;
+                // При клике выбираем первое слово (а не второе)
+                chosen = first;
+            }
+            
             if (chosen !== undefined) next.activePosition = chosen;
             setActiveForWord(next, next.activePosition);
             if (mode === "keyboard") {
