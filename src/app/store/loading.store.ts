@@ -5,7 +5,18 @@ type LoadingState = {
     setLoading: (v: boolean) => void;
 };
 
-export const useLoadingStore = create<LoadingState>((set) => ({
+const loadingStore = create<LoadingState>((set) => ({
     isLoading: false,
-    setLoading: (v) => set({ isLoading: v }),
+    setLoading: (v: boolean) => {
+        set({ isLoading: v });
+    },
 }));
+
+export const useLoadingStore = loadingStore;
+
+// Прямой доступ к store для использования вне React компонентов
+export const loadingStoreDirect = {
+    getState: loadingStore.getState,
+    setState: loadingStore.setState,
+    subscribe: loadingStore.subscribe,
+};
