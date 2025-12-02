@@ -1,11 +1,24 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { getToken } from "next-auth/jwt";
+import {getToken, GetTokenParams} from "next-auth/jwt";
 import {Routes} from "@/app/routes";
 
 export async function middleware(req: NextRequest) {
     const isAuthPath = req.nextUrl.pathname === Routes.SignIn;
-    const token = await getToken({ req, secret: process.env.AUTH_SECRET });
+
+    let params: GetTokenParams = {
+        req,
+        secret: process.env.AUTH_SECRET ?? "secret"
+    };
+
+    if (process.env.NODE_ENV === "production") {
+        params = {
+            ...params,
+            cookieName: "__Secure-authjs.session-token"
+        };
+    }
+
+    const token = await getToken(params);
     const isAuth = !!token;
 
     if (!isAuth && !isAuthPath) {
