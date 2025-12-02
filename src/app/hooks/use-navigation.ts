@@ -2,9 +2,6 @@
 
 import { useRouter } from "next/navigation";
 
-/**
- * Хук для навигации без показа лоадера
- */
 export function useNavigation() {
     const router = useRouter();
 
