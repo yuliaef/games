@@ -7,3 +7,59 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id       String @id @default(uuid())
+  username String @unique
+  password String
+
+  createdAt  DateTime @default(now()) @map("created_at")
+  updateddAt DateTime @updatedAt @map("updated_at")
+
+  @@map("users")
+}
+
+model CrosswordLevel {
+  id        Int     @id @default(autoincrement())
+  name      String  @unique
+  completed Boolean
+  phrase    String  @default("")
+
+  sublevels CrosswordSublevel[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("crossword_levels")
+}
+
+model CrosswordSublevel {
+  id         Int     @id @default(autoincrement())
+  name       String  @unique
+  completed  Boolean
+  locked     Boolean
+  phrasePart String  @default("")
+
+  levelId Int
+  level   CrosswordLevel @relation(fields: [levelId], references: [id])
+
+  crossword Crossword? @relation("SublevelCrossword")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("crossword_sublevels")
+}
+
+model Crossword {
+  id      Int  @id @default(autoincrement())
+  content Json @db.JsonB
+
+  sublevelId Int               @unique
+  sublevel   CrosswordSublevel @relation("SublevelCrossword", fields: [sublevelId], references: [id])
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("crosswords")
+}
