@@ -6,6 +6,7 @@ import { loadingStoreDirect } from "@/app/store/loading.store";
 
 /**
  * Компонент для автоматического показа лоадера при переходах между страницами
+ * Лоадер выключается сразу после изменения pathname, без таймаутов
  */
 export function NavigationLoader() {
     const pathname = usePathname();
@@ -44,7 +45,7 @@ export function NavigationLoader() {
             loadingStoreDirect.setState({ isLoading: true });
         };
 
-        // Перехватываем программную навигацию через history API
+        // Перехватываем программную навигацию через history API (назад/вперед)
         const handlePopState = () => {
             loadingStoreDirect.setState({ isLoading: true });
         };
@@ -59,10 +60,11 @@ export function NavigationLoader() {
         };
     }, [pathname]);
 
-    // Когда path реально поменялся – это и есть завершение перехода.
+    // Когда pathname изменился – это завершение перехода, выключаем лоадер сразу
     useEffect(() => {
         if (previousPathnameRef.current !== pathname) {
             previousPathnameRef.current = pathname;
+            // Выключаем лоадер сразу после перехода, без таймаутов
             loadingStoreDirect.setState({ isLoading: false });
         }
     }, [pathname]);
