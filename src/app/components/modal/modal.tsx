@@ -27,7 +27,7 @@ export function ModalComponent({ modal, children }: ModalComponentProps) {
             // Проверяем, находится ли элемент внутри ModalContent
             let element: HTMLElement | null = target;
             let isInsideModalContent = false;
-            
+
             while (element && element !== document.body) {
                 // Проверяем различные селекторы для ModalContent
                 if (
@@ -40,7 +40,7 @@ export function ModalComponent({ modal, children }: ModalComponentProps) {
                 }
                 element = element.parentElement;
             }
-            
+
             if (!isInsideModalContent) {
                 e.preventDefault();
                 e.stopPropagation();
@@ -53,7 +53,7 @@ export function ModalComponent({ modal, children }: ModalComponentProps) {
             // Проверяем, находится ли элемент внутри ModalContent
             let element: HTMLElement | null = target;
             let isInsideModalContent = false;
-            
+
             while (element && element !== document.body) {
                 // Проверяем различные селекторы для ModalContent
                 if (
@@ -66,7 +66,7 @@ export function ModalComponent({ modal, children }: ModalComponentProps) {
                 }
                 element = element.parentElement;
             }
-            
+
             if (!isInsideModalContent) {
                 e.preventDefault();
                 e.stopPropagation();
@@ -102,12 +102,12 @@ export function ModalComponent({ modal, children }: ModalComponentProps) {
             scrollBehavior="inside"
             placement="center"
             classNames={{
-                base: "max-h-[90vh] h-[90vh] mx-auto my-auto",
+                base: "max-h-[90vh] mx-auto my-auto",
                 wrapper: "items-center justify-center overflow-hidden",
                 backdrop: "overflow-hidden touch-none",
             }}
         >
-            <ModalContent className="max-h-[90vh] h-[90vh] overflow-y-auto">
+            <ModalContent className="max-h-[90vh] overflow-y-auto">
                 {children}
             </ModalContent>
         </Modal>

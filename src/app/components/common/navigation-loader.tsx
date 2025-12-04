@@ -17,8 +17,15 @@ export function NavigationLoader() {
         const handleLinkClick = (e: MouseEvent) => {
             const target = e.target as HTMLElement;
             const link = target.closest('a[href]') as HTMLAnchorElement;
-            
+
             if (!link) return;
+
+            // Если ссылка помечена как "заблокированная" / disabled – полностью блокируем навигацию
+            if (link.getAttribute('data-disabled') === 'true' || link.getAttribute('aria-disabled') === 'true') {
+                e.preventDefault();
+                e.stopPropagation();
+                return;
+            }
 
             const href = link.getAttribute('href');
             if (!href) return;
@@ -36,7 +43,7 @@ export function NavigationLoader() {
             // Пропускаем если это та же страница (без учета query параметров и hash)
             const currentPath = pathname.split('?')[0].split('#')[0];
             const targetPath = href.split('?')[0].split('#')[0];
-            
+
             if (targetPath === currentPath) {
                 return;
             }

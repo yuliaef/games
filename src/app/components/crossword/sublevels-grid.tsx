@@ -1,6 +1,4 @@
 import { getInjection } from "@/di/container";
-/* eslint-disable @next/next/no-img-element */
-
 import { ICrosswordController } from "@/core/controllers/crossword.controller";
 import Link from "next/link";
 import {Routes} from "@/app/routes";
@@ -19,6 +17,9 @@ export default async function SubLevelsGrid({ levelId }: { levelId: number }) {
                     className={`p-4 border rounded-md shadow-sm bg-white hover:bg-slate-50 transition overflow-hidden ${
                         sub.locked ? 'opacity-60 cursor-not-allowed' : ''
                     }`}
+                    aria-disabled={sub.locked ? "true" : undefined}
+                    data-disabled={sub.locked ? "true" : undefined}
+                    tabIndex={sub.locked ? -1 : undefined}
                 >
                     <div className="relative w-full aspect-square mb-3 rounded-md overflow-hidden bg-slate-100">
                         <img

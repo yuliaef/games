@@ -32,7 +32,7 @@ const crosswordData1: CrosswordData = {
 
 const crosswordData2: CrosswordData = {
     words: [
-        { clue: "Первое слово", answer: "secuestrada", position: 1, orientation: "down", rowStart: 1, colStart: 13, description: "Mi mujer está 'похищена'" },
+        { clue: "Первое слово", answer: "secuestrada", position: 1, orientation: "down", rowStart: 1, colStart: 15, description: "Mi mujer está 'похищена'" },
         { clue: "Второе слово", answer: "manana", position: 2, orientation: "down", rowStart: 3, colStart: 9, description: "Самое любимое слово у носителей испанского!" },
         { clue: "Тертье слово", answer: "cumpleanos", position: 3, orientation: "across", rowStart: 7, colStart: 2, description: "Как сказать День Рождения?)" },
         { clue: "Четретое слово", answer: "cinco", position: 4, orientation: "down", rowStart: 4, colStart: 2, description: "Uno, dos, tres, cuatro, ___" },
